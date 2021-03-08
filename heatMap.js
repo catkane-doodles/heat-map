@@ -55,7 +55,7 @@ class HeatMap {
     for (let heat of this.heats) {
       if (heat.contains(p)) {
         p.changes.y +=
-          (((heat.height - p.pos.y) / heat.height) * heat.magnitude) / 100000;
+          (((heat.height - p.pos.y) / heat.height) * heat.magnitude) / 120000;
         return;
       }
     }
