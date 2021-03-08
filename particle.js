@@ -20,12 +20,8 @@ class Particle {
 
   rotate(velocity, angle) {
     const rotatedVelocities = {
-      x:
-        (velocity.x * Math.cos(angle) - velocity.y * Math.sin(angle)) *
-        this.elasticity,
-      y:
-        (velocity.x * Math.sin(angle) + velocity.y * Math.cos(angle)) *
-        this.elasticity,
+      x: velocity.x * Math.cos(angle) - velocity.y * Math.sin(angle),
+      y: velocity.x * Math.sin(angle) + velocity.y * Math.cos(angle),
     };
     return rotatedVelocities;
   }
@@ -75,11 +71,11 @@ class Particle {
     const vFinal2 = this.rotate(v2, -angle);
 
     // Swap this velocities for realistic bounce effect
-    this.vel.x = vFinal1.x;
-    this.vel.y = vFinal1.y;
+    this.vel.x = vFinal1.x * this.elasticity;
+    this.vel.y = vFinal1.y * this.elasticity;
 
-    p.vel.x = vFinal2.x;
-    p.vel.y = vFinal2.y;
+    p.vel.x = vFinal2.x * this.elasticity;
+    p.vel.y = vFinal2.y * this.elasticity;
   }
 
   show() {
@@ -100,7 +96,7 @@ class Particle {
     this.pos.x = max(this.radius, min(this.pos.x, width - this.radius));
     this.pos.y = max(this.radius, min(this.pos.y, height - this.radius));
 
-    this.changes.mult(0.8);
+    this.changes.mult(0.999);
 
     this.acc.add(this.changes);
     this.acc.mult(1 - this.friction);

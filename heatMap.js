@@ -46,8 +46,7 @@ class HeatMap {
       let x = w - wRes / 2;
       let x2 = x * x;
       let y = a * x2;
-      // console.log(y);
-      let mag = (200 - y) / this.resolution;
+      let mag = (100 - y) / this.resolution;
       this.heats.push(new Heat(w * this.resolution, h, this.resolution, mag));
     }
   }
@@ -56,7 +55,7 @@ class HeatMap {
     for (let heat of this.heats) {
       if (heat.contains(p)) {
         p.changes.y +=
-          (((heat.height - p.pos.y) / heat.height) * heat.magnitude) / 230;
+          (((heat.height - p.pos.y) / heat.height) * heat.magnitude) / 100000;
         return;
       }
     }

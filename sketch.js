@@ -18,31 +18,24 @@ let heatMap;
 function setup() {
   frameRate(fr);
 
-  gravity = createVector(0, 0.9);
+  gravity = createVector(0, 0.4);
   friction = 0.3;
-  elasticity = 0.8;
+  elasticity = 0.7;
 
   cnv = createCanvas(width, height);
   quadTree = new QuadTree(0, 0, width, height);
 
-  for (let y = height - particleSize; y > (3 * height) / 4; y -= particleSize) {
+  for (let y = height - particleSize; y > height / 2; y -= particleSize) {
     let xRandom = random(0, particleSize);
     for (let x = xRandom; x < width; x += particleSize) {
       particles.push(
-        new Particle(
-          x,
-          y - height / 2,
-          particleSize,
-          gravity,
-          friction,
-          elasticity
-        )
+        new Particle(x, y, particleSize, gravity, friction, elasticity)
       );
     }
   }
 
   // particles.push(
-  //   new Particle(width / 2, height / 2, particleSize, gravity, friction)
+  //   new Particle(width / 2, height, particleSize, gravity, friction)
   // );
 
   heatMap = new HeatMap(width, height, resolution);
