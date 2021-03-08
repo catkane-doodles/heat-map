@@ -96,7 +96,11 @@ class Particle {
     this.pos.x = max(this.radius, min(this.pos.x, width - this.radius));
     this.pos.y = max(this.radius, min(this.pos.y, height - this.radius));
 
-    this.changes.mult(0.999);
+    if (this.changes.mag() < 0.0001) {
+      this.changes.mult(0);
+    }
+
+    this.changes.mult(0.9994);
 
     this.acc.add(this.changes);
     this.acc.mult(1 - this.friction);

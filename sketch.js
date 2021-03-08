@@ -18,9 +18,9 @@ let heatMap;
 function setup() {
   frameRate(fr);
 
-  gravity = createVector(0, 0.4);
+  gravity = createVector(0, 0.35);
   friction = 0.3;
-  elasticity = 0.7;
+  elasticity = 0.9;
 
   cnv = createCanvas(width, height);
   quadTree = new QuadTree(0, 0, width, height);
