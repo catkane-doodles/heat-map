@@ -11,8 +11,6 @@ let elasticity;
 let fr = 30;
 let cnv;
 
-let totalParticles = 300;
-
 let particles = [];
 let quadTree;
 let heatMap;
@@ -20,25 +18,32 @@ let heatMap;
 function setup() {
   frameRate(fr);
 
-  gravity = createVector(0, 0.1);
+  gravity = createVector(0, 0.9);
   friction = 0.3;
   elasticity = 0.8;
 
   cnv = createCanvas(width, height);
   quadTree = new QuadTree(0, 0, width, height);
 
-  for (let i = 0; i < totalParticles; i++) {
-    particles.push(
-      new Particle(
-        random(particleSize, width - particleSize),
-        random(particleSize, height - particleSize),
-        particleSize,
-        gravity,
-        friction,
-        elasticity
-      )
-    );
+  for (let y = height - particleSize; y > (3 * height) / 4; y -= particleSize) {
+    let xRandom = random(0, particleSize);
+    for (let x = xRandom; x < width; x += particleSize) {
+      particles.push(
+        new Particle(
+          x,
+          y - height / 2,
+          particleSize,
+          gravity,
+          friction,
+          elasticity
+        )
+      );
+    }
   }
+
+  // particles.push(
+  //   new Particle(width / 2, height / 2, particleSize, gravity, friction)
+  // );
 
   heatMap = new HeatMap(width, height, resolution);
 }

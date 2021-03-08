@@ -11,6 +11,7 @@ class Particle {
     this.diameter = diameter;
     this.radius = diameter / 2;
     this.gravity = gravity;
+    this.changes = createVector(0, 0);
     this.friction = friction;
     this.elasticity = elasticity;
 
@@ -91,16 +92,22 @@ class Particle {
     if (this.pos.y >= height - this.radius) {
       this.atFloor = true;
     } else {
-      this.acc = this.acc.add(this.gravity);
+      this.atFloor = false;
+      this.vel.add(this.gravity);
       // at ceil
     }
     // keeping between width and height
     this.pos.x = max(this.radius, min(this.pos.x, width - this.radius));
     this.pos.y = max(this.radius, min(this.pos.y, height - this.radius));
 
+    this.changes.mult(0.8);
+
+    this.acc.add(this.changes);
     this.acc.mult(1 - this.friction);
+
     this.vel = this.vel.add(this.acc);
     this.vel.mult(1 - this.friction);
+
     if (this.vel.mag() < 0.1) {
       this.vel.mult(0);
       return;

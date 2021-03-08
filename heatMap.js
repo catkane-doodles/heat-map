@@ -1,16 +1,16 @@
 class Heat {
-  constructor(x, y, width, magnitude) {
+  constructor(x, y, resolution, magnitude) {
     this.x = x;
     this.y = y;
-    this.beginX = x - width;
-    this.beginY = y - magnitude;
-    this.width = width;
+    this.beginX = x - resolution;
+    this.beginY = y - magnitude * resolution;
+    this.resolution = resolution;
     this.magnitude = magnitude;
+
+    this.height = this.y - this.beginY;
   }
 
   contains(p) {
-    // console.log(this.beginX, p.x, this.x);
-    // console.log(this.beginY, p.y, this.y);
     let x = p.pos.x;
     let y = p.pos.y;
     return x <= this.x && x >= this.beginX && y <= this.y && y >= this.beginY;
@@ -19,7 +19,12 @@ class Heat {
   show() {
     stroke(255);
     noFill();
-    rect(this.beginX, this.beginY, this.width, this.magnitude);
+    rect(
+      this.beginX,
+      this.beginY,
+      this.resolution,
+      this.magnitude * this.resolution
+    );
   }
 }
 
@@ -37,12 +42,12 @@ class HeatMap {
     let wRes = int(this.width / this.resolution);
     let h = this.height;
     for (let w = 0; w <= wRes; w++) {
-      let a = 0.1;
+      let a = 0.5;
       let x = w - wRes / 2;
       let x2 = x * x;
       let y = a * x2;
       // console.log(y);
-      let mag = (30 - y) * 5;
+      let mag = (200 - y) / this.resolution;
       this.heats.push(new Heat(w * this.resolution, h, this.resolution, mag));
     }
   }
@@ -50,7 +55,9 @@ class HeatMap {
   heatUp(p) {
     for (let heat of this.heats) {
       if (heat.contains(p)) {
-        p.acc.y -= (this.height - p.pos.y) / heat.magnitude;
+        p.changes.y +=
+          (((heat.height - p.pos.y) / heat.height) * heat.magnitude) / 230;
+        return;
       }
     }
   }
